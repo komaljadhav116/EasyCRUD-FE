@@ -1,0 +1,25 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('pull') {
+            steps {
+                git branch: 'main', url: 'https://github.com/komaljadhav116/EasyCRUD-FE.git'
+            }
+        }
+
+         stage('Build') {
+            steps {
+                sh '''npm install
+                      npm run build '''
+            }
+        }
+
+         stage('Deploy') {
+            steps {
+                sh '''/usr/local/bin/aws s3 cd dist/angular-frontend s3://chavan-tf-bucket/
+'''
+            }
+        }
+    }
+}
